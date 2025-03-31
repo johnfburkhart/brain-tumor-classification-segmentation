@@ -1,9 +1,9 @@
-# Using pretrained models and image preprocessing to achieve high test accuracy for the binary classification of brain tumors from a limited MRI dataset.
+# Binary classification of brain tumors from MRIs.
 
 ## Authors and credits
-* John "Frank" Burkhart: Responsible for binary classification code and majority of the write-up. Wrote all code found in this resository, with exception of code found from tutorials and written by generative ML.
+* John "Frank" Burkhart: Responsible for binary classification code and manuscript write-up.
 * Tom Blue: Created masks for semantic segmentation using LabelBox software
-* Brian Manuel: Wrote code for semantic segmentation section of this project (not found here)
+* Brian Manuel: Wrote code for semantic segmentation section
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -20,7 +20,7 @@ Resonance Images (MRI) in order to classify images with and without tumors, and 
 This repository serves to show the code I wrote for performing image preprocessing, model building, and model evaluation. An overview of the repository's structure can be found in the [Directory Structure](#directory-structure) section of this README.
 
 ## Data Preprocessing and EDA
-We sourced the data from a Kaggle post and downloaded it to our local machines to proceeded with EDA and data preprocessing. We began by splitting the data into training and testing data, and found the following class distribution for each dataset:
+We began by splitting the data into training and test sets and found the following class distribution:
 
 | Class | Training | Testing |
 |-------|----------|---------|
@@ -42,11 +42,11 @@ From here, the following Torch transformations were applied to each training ima
 * Perform horizontal flip and rotation with $50$% probability
 * Apply Gaussian blur with kernel size of $3$
 
-We apply only the resizing to the test images.
+Of these transformations, we apply only the resizing to the test images.
 
 ## Modeling 
 
-For our binary classification, we approach the task using two models. First, we use a basic CNN with few parameters to see if we can train a model from scratch to achieve above baseline test accuracy. We then see how a pretrained model, VGG19 in our case, is able to outperform this basic model. For each model, we use a cross entropy loss function with Adam optimization. Here is a table outlining the model architecture and parameters of our first model:
+For our binary classification, we approach the task using two models. First, we use a basic CNN with few parameters to see if we can train a model from scratch to achieve above baseline test accuracy. We then see how well a pretrained model, VGG19 in our case, is able to outperform this basic model. For each model, we use a cross entropy loss function with Adam optimization. Here is a table outlining the model architecture and parameters of our first model:
 
 <table>
     <tr>
@@ -123,7 +123,7 @@ For our binary classification, we approach the task using two models. First, we 
 </table>
 
 
-We chose to include weight decay as a way to avoid overfitting on this relatively small dataset. Following this, we trained the model for $50$ epochs and graphed its evaluated its training and testing accuracy with the following figures:
+We chose to include weight decay as a way to avoid overfitting this relatively small dataset. Following this, we trained the model for $50$ epochs and graphed its evaluated its training and testing accuracy with the following figures:
 
 <div style="display: flex; justify-content: space-around;">
   <img src="figures/basic_cnn_accuracy_graph.png" alt="Image 1" style="width: 45%;"/>
@@ -140,7 +140,7 @@ load the model for our purposes, we froze all pre-trained layers and changed the
   <img src="figures/vgg19_confusion_matrix.png" alt="Image 2" style="width: 45%;"/>
 </div>
 
-From this second set of figures, we can see that the pretrained model, as expected, significantly outperforms our custom made CNN, with much better test accuracy variance, and a slightly improved false negative rate. Based on these figures, I would say our adjusted pretrained model is successful in classifying brain tumors from axial MRIs.
+From this second set of figures, we can see that the pretrained model significantly outperforms our custom made CNN, with much better test accuracy variance, and a slightly improved false negative rate.
 
 ## Directory Structure
 
